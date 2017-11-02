@@ -1,15 +1,15 @@
 # FIGARO
 A framework for exposure characterization and gamma dosimetry at the NMBU FIGARO irradiation facility.
 
-10/2017 lindbohansen@gmail.com
+$ 2017 lindbohansen@gmail.com $
 
-FIGARO software bundle
+#### FIGARO software bundle
 
 read about FIGARO under FIGARO/figaro-article --> currently unavailable as the article has been submitted for publication to the DoReMi special issue of the International Journal of Radiation Biology
 
-see bundle contents at the end of this file
+#### see bundle contents at the end of this file
 
-FIGARO has been developed under CentOS Linux 7 with the following non-exhaustive list of software
+#### FIGARO has been developed under CentOS Linux 7 with the following non-exhaustive list of software
 
 Geant4: geant4.10.03.p01
 
@@ -29,7 +29,7 @@ pandoc: pandoc 1.12.3.1
 
 latex: pdfTeX 3.1415926-2.5-1.40.14 (TeX Live 2013)
 
-FIGARO full bundle contents
+#### FIGARO full bundle contents
 
 figaro - source code and macros for the Geant4 app
 
