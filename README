@@ -1,9 +1,9 @@
 FIGARO
-$ 07/2017 lindbohansen@gmail.com $
+10/2017 lindbohansen@gmail.com
 
-software bundle for FIGARO
-read about FIGARO under FIGARO/figaro-article
-see full bundle contents at the end of this file
+FIGARO software bundle
+read about FIGARO under FIGARO/figaro-article --> currently unavailable as the article has been submitted for publication
+see bundle contents at the end of this file
 
 FIGARO has been developed under CentOS Linux 7 with the following non-exhaustive list of software
 
@@ -18,7 +18,10 @@ pandoc: pandoc 1.12.3.1
 latex: pdfTeX 3.1415926-2.5-1.40.14 (TeX Live 2013)
 
 FIGARO full bundle contents
-
+figaro - source code and macros for the Geant4 model
+figaro-build - folder for the Geant4 model build
+figaro-bash - folder for bash scripts to handle common user tasks
+etc.
 
 
 
