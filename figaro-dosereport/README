@@ -1,0 +1,52 @@
+setup-master
+id: unique identifier for each experimental unit
+type: unique identifier for the type of experimental unit
+rotation: unique identifier for each subexposure 
+(subexposures occur e.g. when units are rotated in the field)
+position: unique identifier for each position in the field
+
+setup-types
+type: unique identifier for the type of experimental unit
+x: width of experimental unit in the horizonthal direction perpendicular to central field axis
+(e.g. size in the direction straight out from the door)
+y: height of experimental unit in the vertical direction perpendicular to central field axis
+(e.g. size in the direction from the floor and upwards)
+z: length of experimental unit along the direction of the central field axis
+(e.g. size in the direction straight out from the source towards the backwall)
+approximateshape: simple geometrical shape that approximates the actual shape of an experimental unit
+(e.g. box, cylinder)
+actualshape: the actual shape of an experimental unit
+(e.g. 96-well well plates)
+materials: the main materials in a type of experimental unit
+(e.g. water-plexiglass)
+
+setup-rotations
+rotation: unique identifier for each subexposure
+(subexposures occur e.g. when units are rotated in the field)
+exposurestart: ISO-8601 fomat UTC date and time for when the beam is opened
+exposurestop: ISO-8601 format UTC date and time for when the beam is closed
+(ISO-8601 format UTC date and time, FIGARO regular: yyyy-mm-ddThh:mm:ss+01:00)
+(ISO-8601 format UTC date and time, FIGARO summer: yyyy-mm-ddThh:mm:ss+02:00)
+(all rotations must have paired exposurestart and exposurestop entries)
+(add as many paired exposurestart and exposurestop entries as required)
+
+setup-positions
+position: unique identifier for each position in the field
+X: distance from central field axis to setup midpoint along the horizonthal direction perpendicular to central field axis
+Y: distance from floor to setup lowest point along the vertical direction perpendicular to central field axis
+Z: distance from source focus to setup front face along the direction of the central field axis
+(Z is found by measuring distance from setup front face to exit face of collimator and adding 41.7 cm)
+
+absorbed-doserates
+type: unique identifier for the type of experimental unit
+position: unique identifier for each position in the field
+minFrontAirKermaRate: smallest simulated air kerma rate across front face of setup
+maxFrontAirKermaRate: largest simulated air kerma rate across front face of setup
+meanFrontAirKermaRate: mean simulated air kerma rate across front face of setup
+minAbsorbedDoseRate: smallest simulated absorbed dose rate to setup
+(reflects that absorbed dose rates vary with position)
+maxAbsorbedDoseRate: largest simulated absorbed dose rate to setup
+(reflects that absorbed dose rates vary with position)
+wholesetupAbsorbedDoseRate: the simulated absorbed dose rate to the whole setup
+absorbedDoseRateToWhat: the material for which the absorbed dose rate refers to
+(e.g. if absorbedDoseRateToWhat is water, than the absorbed dose rates are absorbed dose rates to water)

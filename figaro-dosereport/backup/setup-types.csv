@@ -1,0 +1,2 @@
+type,xcm,ycm,zcm,approximateshape,acutalshape,materials
+cosms,20,20,10,box,box,water-plexiglass

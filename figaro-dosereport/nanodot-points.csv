@@ -1,0 +1,6 @@
+type,point,xcm,ycm
+cosms,center,0,10.3
+cosms,lowerleftcorner,-7,3.3
+cosms,lowerrightcorner,-7,17.3
+cosms,upperleftcorner,7,3.3
+cosms,upperrightcorner,7,17.3
