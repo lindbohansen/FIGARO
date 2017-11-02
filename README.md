@@ -1,6 +1,8 @@
 # FIGARO
 A framework for exposure characterization and gamma dosimetry at the NMBU FIGARO irradiation facility.
 
+--> (this directory is undergoing cleanup) <--
+
 $ 2017 lindbohansen@gmail.com $
 
 #### FIGARO software bundle
