@@ -1,6 +1,6 @@
 # $Id: CMakeLists.txt 100923 2016-11-03 10:50:34Z gcosmo $
 
-# $ 07/2017 lindbohansen@gmail.com $ 
+# $ 2017 lindbohansen@gmail.com $ 
 
 #----------------------------------------------------------------------------
 # Setup the project
@@ -50,8 +50,6 @@ set(FIGARO_SCRIPTS
   init.mac
   init_vis.mac
   vis.mac
-  fluence.mac
-  ssdlcomp.mac
   ssdlcomp-energyfluence.mac
   cosmscomp-energyfluence.mac
   zoom-to-source.mac
