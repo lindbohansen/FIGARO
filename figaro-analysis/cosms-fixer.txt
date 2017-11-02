@@ -1,0 +1,74 @@
+
+#cosms<-read_csv("all_cosm_doses.csv")
+
+cosms<-read_csv("corrected_all_cosm_doses.csv")
+
+cosms=filter(cosms,lvl>0)
+
+cosms=mutate(cosms,kerma=(dose-anneal)/time)
+
+adjustmentToReality=(-42.5-10.5+41.7)
+
+cosms=mutate(cosms,zlvl=case_when(
+			lvl==1 ~ 207.5+adjustmentToReality,
+			lvl==2 ~ 327.0+adjustmentToReality,
+			lvl==3 ~ 652.0+adjustmentToReality,
+			lvl==4 ~ 1027.0+adjustmentToReality))
+
+
+cosms=mutate(cosms,z=case_when(
+			plane=="front" ~ zlvl+0.6,
+			plane=="back"  ~ zlvl+0.6+10))
+
+cosms=mutate(cosms,centery=case_when(
+			lvl==1 & position=="B"  ~ 65+(20+0.6)/2,
+			lvl==1 & position=="T"  ~ 65+(20+0.6)/2+2+(20+0.6),
+			lvl==2 & position=="L"  ~ 65+(20+0.6)/2,
+			lvl==2 & position=="R"  ~ 65+(20+0.6)/2,
+			lvl==3 & position=="L"  ~ 90.9+(20+0.6)/2,
+			lvl==3 & position=="LC" ~ 90.9+(20+0.6)/2,
+			lvl==3 & position=="RC" ~ 90.9+(20+0.6)/2,
+			lvl==3 & position=="R"  ~ 90.9+(20+0.6)/2,
+			lvl==4 & position=="BL" ~ 134+(20+0.6)/2,
+			lvl==4 & position=="BC" ~ 134+(20+0.6)/2,
+			lvl==4 & position=="BR" ~ 134+(20+0.6)/2,
+			lvl==4 & position=="TL" ~ 134+(20+0.6)/2+2+(20+0.6),
+			lvl==4 & position=="TC" ~ 134+(20+0.6)/2+2+(20+0.6),
+			lvl==4 & position=="TR" ~ 134+(20+0.6)/2+2+(20+0.6)))
+
+cosms=mutate(cosms,centerx=case_when(
+			lvl==1 & position=="B"  ~ 0-(20+0.6*2)/2,
+			lvl==1 & position=="T"  ~ 0-(20+0.6*2)/2,
+			lvl==2 & position=="L"  ~ 0+(20+0.6*2)/2,
+			lvl==2 & position=="R"  ~ 0+(20+0.6*2)/2+0.25+(20+0.6*2),
+			lvl==3 & position=="L"  ~ 0+(20+0.6*2)/2,
+			lvl==3 & position=="LC" ~ 0+(20+0.6*2)/2+0.25+(20+0.6*2),
+			lvl==3 & position=="RC" ~ 0+(20+0.6*2)/2+(0.25+(20+0.6*2))*2,
+			lvl==3 & position=="R"  ~ 0+(20+0.6*2)/2+(0.25+(20+0.6*2))*3,
+			lvl==4 & position=="BL" ~ 0+(20+0.6*2)/2,
+			lvl==4 & position=="BC" ~ 0+(20+0.6*2)/2+0.25+(20+0.6*2),
+			lvl==4 & position=="BR" ~ 0+(20+0.6*2)/2+(0.25+(20+0.6*2))*2,
+			lvl==4 & position=="TL" ~ 0+(20+0.6*2)/2,
+			lvl==4 & position=="TC" ~ 0+(20+0.6*2)/2+0.25+(20+0.6*2),
+			lvl==4 & position=="TR" ~ 0+(20+0.6*2)/2+(0.25+(20+0.6*2))*2))
+
+cosms=mutate(cosms,y=case_when(
+			point=="center" ~ centery,
+			point=="upperleftcorner" ~ centery+(20/2)-3,
+			point=="lowerleftcorner" ~ centery-(20/2)+3,
+			point=="upperrightcorner" ~ centery+(20/2)-3,
+			point=="lowerrightcorner" ~ centery-(20/2)+3,
+			point=="centerofleftedge" ~ centery))
+
+cosms=mutate(cosms,x=case_when(
+			point=="center" ~ centerx,
+			point=="upperleftcorner" ~ centerx-(20/2)+3,
+			point=="lowerleftcorner" ~ centerx-(20/2)+3,
+			point=="upperrightcorner" ~ centerx+(20/2)-3,
+			point=="lowerrightcorner" ~ centerx+(20/2)-3,
+			point=="centerofleftedge" ~ centerx-(20/2)+3))
+
+cosms=round(select(cosms,x,y,z,kerma),2)
+
+write_csv(cosms,"cosms-allpoints-data.csv")
+

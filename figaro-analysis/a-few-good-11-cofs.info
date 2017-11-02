@@ -1,0 +1,11 @@
+> cof$X
+ [1] 0.01513583 0.11996671 0.00100000 0.05176902 0.12733726 0.04866966
+ [7] 0.00100000 0.00100000 0.01720278 0.00100000 0.03313630
+
+
+> cof$X
+ [1] 0.05130375 0.10341464 0.00100000 0.02794631 0.13043064 0.04867498
+ [7] 0.00100000 0.00100000 0.01529625 0.00100000 0.05268109
+
+
+NB! Use the full set for least squares and some reasonable no-gap positivity constrains. Generate a solution for several different sets of equality constraints and sum the solutions or sum them weighted by a reasonable weight.

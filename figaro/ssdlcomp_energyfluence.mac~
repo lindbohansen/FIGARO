@@ -1,0 +1,87 @@
+
+# FIGARO fluence macro
+# $ 07/2017 lindbohansen@gmail.com $
+
+# Mesh 100cm
+/score/create/boxMesh myMesh100cm
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 1 1 1
+# -958.5 + 100
+/score/mesh/translate/xyz -151.5 0 -858.5 cm 
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/cellFlux gammaFlux_1.0MeV_1.5MeV
+/score/filter/particleWithKineticEnergy gamma_1.0MeV_1.5MeV 1.0 1.5 MeV gamma
+/score/quantity/cellFlux gammaFlux_0.6MeV_1.0MeV
+/score/filter/particleWithKineticEnergy gamma_0.6MeV_1.0MeV 0.2 1.5 MeV gamma
+/score/quantity/cellFlux gammaFlux_0.4MeV_0.6MeV
+/score/filter/particleWithKineticEnergy gamma_0.4MeV_0.6MeV 0.4 0.6 MeV gamma
+/score/quantity/cellFlux gammaFlux_0.2MeV_0.4MeV
+/score/filter/particleWithKineticEnergy gamma_0.2MeV_0.4MeV 0.2 0.4 MeV gamma
+
+/score/close
+
+# Mesh 902cm
+/score/create/boxMesh myMesh902cm
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 1 1 1
+# -958.5 + 902
+/score/mesh/translate/xyz -151.5 0 -56.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/cellFlux gammaFlux_1.0MeV_1.5MeV
+/score/filter/particleWithKineticEnergy gamma_1.0MeV_1.5MeV 1.0 1.5 MeV gamma
+/score/quantity/cellFlux gammaFlux_0.6MeV_1.0MeV
+/score/filter/particleWithKineticEnergy gamma_0.6MeV_1.0MeV 0.6 1.0 MeV gamma
+/score/quantity/cellFlux gammaFlux_0.4MeV_0.6MeV
+/score/filter/particleWithKineticEnergy gamma_0.4MeV_0.6MeV 0.4 0.6 MeV gamma
+/score/quantity/cellFlux gammaFlux_0.2MeV_0.4MeV
+/score/filter/particleWithKineticEnergy gamma_0.2MeV_0.4MeV 0.2 0.4 MeV gamma
+/score/close
+
+# Mesh 1502cm
+/score/create/boxMesh myMesh1502cm
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 1 1 1
+# -958.5 + 1502
+/score/mesh/translate/xyz -151.5 0 543.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/cellFlux gammaFlux_1.0MeV_1.5MeV
+/score/filter/particleWithKineticEnergy gamma_1.0MeV_1.5MeV 1.0 1.5 MeV gamma
+/score/quantity/cellFlux gammaFlux_0.6MeV_1.0MeV
+/score/filter/particleWithKineticEnergy gamma_0.6MeV_1.0MeV 0.6 1.0 MeV gamma
+/score/quantity/cellFlux gammaFlux_0.4MeV_0.6MeV
+/score/filter/particleWithKineticEnergy gamma_0.4MeV_0.6MeV 0.4 0.6 MeV gamma
+/score/quantity/cellFlux gammaFlux_0.2MeV_0.4MeV
+/score/filter/particleWithKineticEnergy gamma_0.2MeV_0.4MeV 0.2 0.4 MeV gamma
+/score/close
+
+/run/setCut 1. m
+/run/printProgress 10000
+/vis/disable
+/run/beamOn 100000
+#/vis/enable
+#/vis/reviewKeptEvents
+
+#/score/drawProjection myMesh myQuant
+
+/score/dumpQuantityToFile myMesh100cm gammaFlux myMesh100cm.csv
+/score/dumpQuantityToFile myMesh902cm gammaFlux myMesh902cm.csv
+/score/dumpQuantityToFile myMesh1502cm gammaFlux myMesh1502cm.csv
+
+/score/dumpQuantityToFile myMesh100cm gammaFlux_1.0MeV_1.5MeV myMesh100cm_1.0MeV_1.5MeV.csv
+/score/dumpQuantityToFile myMesh902cm gammaFlux_1.0MeV_1.5MeV myMesh902cm_1.0MeV_1.5MeV.csv
+/score/dumpQuantityToFile myMesh1502cm gammaFlux_1.0MeV_1.5MeV myMesh1502cm_1.0MeV_1.5MeV.csv
+
+/score/dumpQuantityToFile myMesh100cm gammaFlux_0.6MeV_1.0MeV myMesh100cm_0.6MeV_1.0MeV.csv
+/score/dumpQuantityToFile myMesh902cm gammaFlux_0.6MeV_1.0MeV myMesh902cm_0.6MeV_1.0MeV.csv
+/score/dumpQuantityToFile myMesh1502cm gammaFlux_0.6MeV_1.0MeV myMesh1502cm_0.6MeV_1.0MeV.csv
+
+/score/dumpQuantityToFile myMesh100cm gammaFlux_0.4MeV_0.6MeV myMesh100cm_0.4MeV_0.6MeV.csv
+/score/dumpQuantityToFile myMesh902cm gammaFlux_0.4MeV_0.6MeV myMesh902cm_0.4MeV_0.6MeV.csv
+/score/dumpQuantityToFile myMesh1502cm gammaFlux_0.4MeV_0.6MeV myMesh1502cm_0.4MeV_0.6MeV.csv
+
+/score/dumpQuantityToFile myMesh100cm gammaFlux_0.2MeV_0.4MeV myMesh100cm_0.2MeV_0.4MeV.csv
+/score/dumpQuantityToFile myMesh902cm gammaFlux_0.2MeV_0.4MeV myMesh902cm_0.2MeV_0.4MeV.csv
+/score/dumpQuantityToFile myMesh1502cm gammaFlux_0.2MeV_0.4MeV myMesh1502cm_0.2MeV_0.4MeV.csv

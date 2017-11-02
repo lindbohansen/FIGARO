@@ -1,0 +1,384 @@
+---
+title: "figaro-minisource-cylinders-energyfluence-doItAll"
+author: "Elisabeth Lindbo Hansen"
+date: "`r date`"
+output: html_document
+params:
+   inFullPath: ""
+---
+
+```{r setup, eval=TRUE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringr)
+library(limSolve)
+library(glmnet)
+```
+
+```{r in, eval=TRUE, include=TRUE}
+
+fullPath=params$inFullPath
+#fullPath="/home/elhansen/FIGARO/figaro-results/201700000000"
+#fullPath="/home/elhansen/FIGARO/figaro-results/new-collating"
+#fullPath="/home/elhansen/FIGARO/figaro-results/src24-collating/ssdl"
+fileNames=dir(fullPath, recursive=TRUE, all.files=FALSE, full.names=TRUE, pattern =".csv")
+#outFile=str_c(fullPath,".csv")
+data=tibble(iX=numeric(),iY=numeric(),iZ=numeric(),Emin=numeric(),Emax=numeric(),sR=numeric(),sW=numeric(),sH=numeric(),sL=numeric(),value=numeric())
+temp=data
+for(i in 1:length(fileNames)){
+  print(fileNames[i])
+  temp=read_csv(fileNames[i],skip=3,col_names=c("iX","iY","iZ","value","value2","entry"),col_types="iiinni")
+  regex=str_extract_all(fileNames[i], '[[:digit:]]+.[[:digit:]]+')
+  temp$iZ=as.numeric(regex[[1]][6])
+  temp=select(temp,iX,iY,iZ,value)
+  temp=mutate(temp,sR=as.numeric(regex[[1]][2]))
+  temp=mutate(temp,sW=-as.numeric(regex[[1]][3]))
+  temp=mutate(temp,sH=-as.numeric(regex[[1]][4]))
+  temp=mutate(temp,sL=-as.numeric(regex[[1]][5]))
+  temp=mutate(temp,Emin=as.numeric(regex[[1]][7]))
+  temp=mutate(temp,Emax=as.numeric(regex[[1]][8]))
+  data=bind_rows(data,temp)
+  data=filter(data,value>0) # expand this to remove low-level data too (after the loop, for sure)
+  #data=summarise(group_by(data,iX,iY,iZ,sW,sH,sL),value=mean(value))
+}
+rm(temp)
+data=ungroup(summarise(group_by(data,iX,iY,iZ,Emin,Emax,sR,sW,sH,sL),value=mean(value)))
+
+data=filter(data,sH<=(-71.75))
+
+data$iX=data$iX-max(data$iX)/2
+
+data=mutate(data,iE=round((Emin+(Emax-Emin)/2),2))
+
+data=mutate(data,transcof=1)
+
+data=mutate(data,transcof=case_when(
+				iE==1.25 ~ 2.666e-2,
+				iE==0.80 ~ 2.882e-2,
+				iE==0.50 ~ 2.966e-2,
+				iE==0.30 ~ 2.872e-2,
+				TRUE ~ as.numeric(transcof)))
+
+data=mutate(data,kerma=value*transcof*iE*1.60217662)
+
+
+### Units of
+### value: cm-2 (for 1e9 photons shot from the source)
+### iE: MeV
+### transcof: cm2 g-1 (NB! should maybe include g)
+### kerma originally: MeV g-1 = 1.60217662 × 10-7 mGy
+### kerma new: 10-7 mGy
+### measured kerma rates: mGy h-1
+### cof: h-1
+### that means: 1e9 photons * cof h-1 = 1e9 * cof photons h-1
+### that means: 1e9/2 * cof disintegrations h-1
+### that means simulated source intensity: sum (1e9/2 * cof)/(60*60) s-1 
+### that means simulated source intensity: sum (1e9/2 * cof)/(60*60) Bq = sum (1e9/2 * cof)/(60*60)*(1/1e9) GBq
+### that means simulated source intensity: sum (1/2 * cof)/(60*60) GBq
+
+data=select(data,iX,iY,iZ,iE,sR,sH,kerma)
+
+##### NB !!! ####
+
+sRvec=count(data,sR)$sR
+sHvec=count(data,sH)$sH
+
+factor=1
+maxsRmaxsR=as.numeric(max(sRvec)*max(sRvec))
+for(sr in 1:length(sRvec)){
+  factor=sRvec[sr]*sRvec[sr]/maxsRmaxsR
+  data=mutate(data,kerma=case_when(sR==sRvec[sr] ~ kerma*factor,
+  			           TRUE ~ as.numeric(kerma)))
+}
+
+factor=1
+maxsRmaxsR=as.numeric(max(sRvec)*max(sRvec))
+for(sr in 1:length(sRvec)){
+  factor=sRvec[sr]*sRvec[sr]/maxsRmaxsR
+  strengths=mutate(strengths,strength=case_when(sR==sRvec[sr] ~ strength*factor,
+  			           TRUE ~ as.numeric(strength)))
+}
+
+##### NB !!! ####
+
+#write_csv(data,outFile)
+
+outGraphGrid=str_c(fullPath,"Grid.ps")
+outGraphLength=str_c(fullPath,"Length.ps")
+outGraphWidth100.5cm=str_c(fullPath,"Width100.5cm.ps")
+outGraphHeight100.5cm=str_c(fullPath,"Height100.5cm.ps")
+outGraphFalling100.5cm=str_c(fullPath,"Falling100.5cm.ps")
+outGraphRising100.5cm=str_c(fullPath,"Rising100.5cm.ps")
+outGraphWidth102cm=str_c(fullPath,"Width102cm.ps")
+outGraphHeight102cm=str_c(fullPath,"Height102cm.ps")
+outGraphWidth902cm=str_c(fullPath,"Width902cm.ps")
+outGraphHeight902cm=str_c(fullPath,"Height902cm.ps")
+outGraphWidth1502cm=str_c(fullPath,"Width1502cm.ps")
+outGraphHeight1502cm=str_c(fullPath,"Height1502cm.ps")
+outGraphCosms=str_c(fullPath,"Cosms.ps")
+#data=read_csv(inFile,col_types = "iiinnnnnn")
+
+ssdl<-read_csv("ssdl_2013.csv")
+ssdl$w<-as.double(ssdl$w)
+ssdl$h<-as.double(ssdl$h)
+ssdl$h=ssdl$h+78
+ssdl$l<-as.double(ssdl$l)
+ssdl$l=ssdl$l+2
+ssdlRef=139.4
+ssdlRefUnc=4.5
+ssdl=mutate(ssdl,kerma=d)
+ssdl=mutate(ssdl,x=w)
+ssdl=mutate(ssdl,y=h)
+ssdl=mutate(ssdl,z=l)
+ssdl=select(ssdl,x,y,z,kerma)
+ssdltemp=filter(ssdl,x==0,z==902)
+#ssdl=add_row(ssdl,x=0,y=100,z=902,kerma=as.numeric((arrange(ssdltemp,y)[3,]$kerma)))
+#ssdl=add_row(ssdl,x=0,y=as.numeric((arrange(ssdltemp,y)[1,]$y+arrange(ssdltemp,y)[2,]$y)/2),z=902,kerma=as.numeric((arrange(ssdltemp,y)[1,]$kerma+arrange(ssdltemp,y)[2,]$kerma)/2))
+#ssdl=add_row(ssdl,x=0,y=as.numeric((arrange(ssdltemp,y)[2,]$y+arrange(ssdltemp,y)[3,]$y)/2),z=902,kerma=as.numeric((arrange(ssdltemp,y)[2,]$kerma+arrange(ssdltemp,y)[3,]$kerma)/2))
+#ssdl=add_row(ssdl,x=0,y=as.numeric((arrange(ssdltemp,y)[3,]$y+arrange(ssdltemp,y)[4,]$y)/2),z=902,kerma=as.numeric((arrange(ssdltemp,y)[3,]$kerma+arrange(ssdltemp,y)[4,]$kerma)/2))
+#ssdl=add_row(ssdl,x=0,y=as.numeric((arrange(ssdltemp,y)[4,]$y+arrange(ssdltemp,y)[5,]$y)/2),z=902,kerma=as.numeric((arrange(ssdltemp,y)[4,]$kerma+arrange(ssdltemp,y)[5,]$kerma)/2))
+
+
+dotsField<-read_csv("field_2014.csv")
+dotsField$h=dotsField$h+78
+dotsField$d=dotsField$d/((dotsField$d[2]+dotsField$d[3]+dotsField$d[4]+dotsField$d[5])/4)*139.4
+dotsField=mutate(dotsField,kerma=d)
+
+
+cosms<-read_csv("cosms-allpoints-data.csv")
+cosms=mutate(cosms,kerma=kerma*2^(1352/1925.20))
+
+ssdlcosms=bind_rows(ssdl,cosms)
+
+#ssdlTrunc=filter(ssdl,x==0)
+ssdlTrunc=filter(ssdl,x!=(-200))
+
+#cosmsTrunc=cosms
+
+#cosmsTrunc=filter(cosms,z==196.8 | z==206.8)
+#cosmsTrunc=filter(cosms,z==316.3 | z==326.3)
+#cosmsTrunc=filter(cosms,z==641.3 | z==651.3)
+#cosmsTrunc=filter(cosms,z==1016.3)
+
+
+### adding some data measured for cosms
+#ssdlTrunc=bind_rows(ssdlTrunc,filter(cosms,x==-17.60,y==82.3,z==198.1)) ### poor results when added alone
+
+#ssdlTrunc=bind_rows(ssdlTrunc,filter(cosms,x==39.05,y==82.3,z==327.6)) ### 
+
+#ssdlTrunc=bind_rows(ssdlTrunc,filter(cosms,x==10.60,y==101.2,z==642.6) ### could look like these reflect cosms were not placed where you think they were placed
+#ssdlTrunc=bind_rows(ssdlTrunc,filter(cosms,x==32.05,y==101.2,z==642.6) ###
+
+#ssdlTrunc=ssdlcosms
+
+ssdlMeasured=ssdlTrunc$kerma
+cosmsMeasured=cosmsTrunc$kerma
+
+#data=read_csv("/home/elhansen/FIGARO/figaro-results/final_before_CERAD_talk/data-factored.csv")
+
+gc()
+smoother=2
+ssdlSimulated=matrix(data=NA,nrow=(dim(ssdlTrunc)[1]),ncol=length(sRvec)*length(sHvec))
+for(itr in 1:dim(ssdlTrunc)[1]){
+  for(sr in 1:length(sRvec)){
+    tempdata=filter(data,sR==sRvec[sr])
+    for(sh in 1:length(sHvec)){
+      #print((sr-1)*length(sHvec)+sh)
+      smalldata=filter(tempdata,sH==sHvec[sh],iX<=ssdlTrunc[itr,]$x+smoother & iX>=ssdlTrunc[itr,]$x-smoother,iY<=ssdlTrunc[itr,]$y+smoother & iY>=ssdlTrunc[itr,]$y-smoother,iZ==ssdlTrunc[itr,]$z)
+      ssdlSimulated[itr,(sr-1)*length(sHvec)+sh]=as.numeric(summarise(smalldata,sum(kerma)))/as.numeric(count(count(smalldata,iX,iY,iZ)))
+    }
+  }
+}
+gc()
+cosmsSimulated=matrix(data=NA,nrow=(dim(cosmsTrunc)[1]),ncol=length(sRvec)*length(sHvec))
+for(itr in 1:dim(cosmsTrunc)[1]){
+  for(sr in 1:length(sRvec)){
+    tempdata=filter(data,sR==sRvec[sr])
+    for(sh in 1:length(sHvec)){
+      #print((sr-1)*length(sHvec)+sh)
+      smalldata=filter(tempdata,sH==sHvec[sh],iX<=cosmsTrunc[itr,]$x+smoother & iX>=cosmsTrunc[itr,]$x-smoother,iY<=cosmsTrunc[itr,]$y+smoother & iY>=cosmsTrunc[itr,]$y-smoother,iZ==cosmsTrunc[itr,]$z)
+      cosmsSimulated[itr,(sr-1)*length(sHvec)+sh]=as.numeric(summarise(smalldata,sum(kerma)))/as.numeric(count(count(smalldata,iX,iY,iZ)))
+    }
+  }
+}
+gc()
+
+cofnnls=nnls(ssdlSimulated,ssdlMeasured)
+cofnnls$X
+
+simulated=rbind(ssdlSimulated,cosmsSimulated)
+measured=c(ssdlMeasured,cosmsMeasured)
+
+simulatedExactly=rbind(ssdlSimulated,matrix(data=0,nrow=nrow(cosmsSimulated),ncol=ncol(cosmsSimulated)))
+
+constraints = diag(ncol(simulated))
+#constraints[1:length(sHvec),]=0
+for(sh in 1:length(sHvec)){
+  constraints[sh,length(sHvec)+sh]=1
+}
+
+#data=read_csv("data.csv")
+
+activities = rep(0, ncol(simulated))
+#activities[12:19]=0.05
+#activities[20:22]=0.01
+#activities[as.numeric(length(sHvec)+1):as.numeric(length(sRvec)*length(sHvec))]=0.001
+
+#activities[3:6]=0.04 # prev 1 to 5
+#activities[6:9]=0.01
+
+
+coflsei=lsei(A=simulated,B=measured,E=NULL,F=NULL,G=constraints,H=activities)
+coflsei$X
+
+cof=coflsei
+#cof=cofnnls
+
+cofx=cof$X
+
+#plot(cofx[1:11]+cofx[12:22])
+
+data=mutate(data,wcof=0)
+
+for(sr in 1:length(sRvec)){
+  for(sh in 1:length(sHvec)){
+    data=mutate(data,wcof=case_when(sR==sRvec[sr] & sH==sHvec[sh] ~ cofx[(sr-1)*length(sHvec)+sh],
+  					            TRUE ~ as.numeric(wcof)))
+  }
+}
+
+
+
+data=mutate(data,wkerma=kerma*wcof)
+#backup=data
+
+data=ungroup(summarise(group_by(data,iX,iY,iZ),kerma=sum(kerma),wkerma=sum(wkerma)))
+
+widthData=ungroup(summarise(group_by(filter(data,iY>=(78-smoother) & iY<=(78+smoother)),iX,iZ),kerma=mean(kerma),wkerma=mean(wkerma)))
+#widthData=ungroup(summarise(group_by(filter(data,iY>=(78-smoother) & iY<=(78+smoother)),iX,iZ,iE,sR,sH),kerma=mean(kerma),wkerma=mean(wkerma)))
+#widthDatasH=ungroup(summarise(group_by(widthData,iX,iZ,sH),kerma=sum(kerma),wkerma=sum(wkerma)))
+#widthDataiE=ungroup(summarise(group_by(widthData,iX,iZ,iE),kerma=sum(kerma),wkerma=sum(wkerma)))
+
+heightData=ungroup(summarise(group_by(filter(data,iX>=-smoother & iX<=smoother),iY,iZ),kerma=mean(kerma),wkerma=mean(wkerma)))
+#heightData=ungroup(summarise(group_by(filter(data,iX>=-smoother & iX<=smoother),iY,iZ,iE,sR,sH),kerma=mean(kerma),wkerma=mean(wkerma)))
+#heightDatasH=ungroup(summarise(group_by(heightData,iY,iZ,sH),kerma=sum(kerma),wkerma=sum(wkerma)))
+#heightDataiE=ungroup(summarise(group_by(heightData,iY,iZ,iE),kerma=sum(kerma),wkerma=sum(wkerma)))
+
+lengthData=ungroup(summarise(group_by(filter(data,iX>=-smoother & iX<=smoother,iY>=(78-smoother) & iY<=(78+smoother)),iZ),kerma=mean(kerma),wkerma=mean(wkerma)))
+#lengthData=ungroup(summarise(group_by(filter(data,iX>=-smoother & iX<=smoother,iY>=(78-smoother) & iY<=(78+smoother)),iZ,iE,sR,sH),kerma=mean(kerma),wkerma=mean(wkerma)))
+#lengthDatasH=ungroup(summarise(group_by(lengthData,iZ,sH),kerma=sum(kerma),wkerma=sum(wkerma)))
+#lengthDataiE=ungroup(summarise(group_by(lengthData,iZ,iE),kerma=sum(kerma),wkerma=sum(wkerma)))
+
+g=ggplot()
+g+geom_area(data=filter(widthData,iZ==902),aes(x=iX,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(widthData,iZ==902),aes(x=iX,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,y==78,z==902),aes(x=x,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=20)+xlab("width [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=[] y=78cm z=902cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(-300,300)#+ylim(0,2)
+
+g=ggplot()
+g+geom_area(data=filter(heightData,iZ==902),aes(x=iY,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(heightData,iZ==902),aes(x=iY,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,x==0,z==902),aes(x=y,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=20)+xlab("height [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=0cm y=[] z=902cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(0,300)#+ylim(0,2)
+
+g=ggplot()
+g+geom_area(data=lengthData,aes(x=(1/(iZ*iZ)),y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=lengthData,aes(x=(1/(iZ*iZ)),y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,x==0,y==78),aes(x=(1/(z*z)),ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black")+xlab("length [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=0cm y=78cm z=[]")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")
+
+# fix height profiles for constant x data for cosms (or vice versa, but height probably most revealing)
+cosmsX=count(cosms,x)
+#> cosmsX
+# A tibble: 10 x 2
+#        x     n
+#    <dbl> <int>
+# 1 -17.60     5
+# 2 -10.60     4
+# 3  -3.60     5
+# 4   3.60     9
+# 5  10.60     6
+# 6  32.05     6
+# 7  39.05     3
+# 8  53.50     4
+# 9  74.95     2
+#10  81.95     2
+
+# for weird lvl 3, may also be helpful to look at some x-profiles and compare distance with kerma rate from excel sheet on central field axis or something such
+
+nr=2
+heightDataCosms=ungroup(summarise(group_by(filter(data,iX>=cosmsX[nr,]$x-smoother & iX<=cosmsX[nr,]$x+smoother),iY,iZ),kerma=mean(kerma),wkerma=mean(wkerma)))
+#heightDatasHCosms=ungroup(summarise(group_by(heightDataCosms,iY,iZ,sH),kerma=sum(kerma),wkerma=sum(wkerma)))
+#heightDataiECosms=ungroup(summarise(group_by(heightDataCosms,iY,iZ,iE),kerma=sum(kerma),wkerma=sum(wkerma)))
+
+g=ggplot()
+g+geom_area(data=filter(heightDataCosms,iZ==196.8),aes(x=iY,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(heightDataCosms,iZ==196.8),aes(x=iY,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,x==0,z==202),aes(x=y,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=2)+xlab("height [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=0cm y=[] z=102cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(30,230)+geom_point(data=filter(cosms,x==cosmsX[nr,]$x,z==196.8),aes(x=y,y=kerma))
+
+nr=4
+heightDataCosms=ungroup(summarise(group_by(filter(data,iX>=cosmsX[nr,]$x-smoother & iX<=cosmsX[nr,]$x+smoother),iY,iZ),kerma=mean(kerma),wkerma=mean(wkerma)))
+#heightDatasHCosms=ungroup(summarise(group_by(heightDataCosms,iY,iZ,sH),kerma=sum(kerma),wkerma=sum(wkerma)))
+#heightDataiECosms=ungroup(summarise(group_by(heightDataCosms,iY,iZ,iE),kerma=sum(kerma),wkerma=sum(wkerma)))
+
+g=ggplot()
+g+geom_area(data=filter(heightDataCosms,iZ==326.3),aes(x=iY,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(heightDataCosms,iZ==326.3),aes(x=iY,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,x==0,z==302),aes(x=y,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=2)+xlab("height [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=0cm y=[] z=102cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(30,230)+geom_point(data=filter(cosms,x==cosmsX[nr,]$x,z==326.3),aes(x=y,y=kerma))
+
+
+# Grabbing simulated data for smoother points around nanoDots cosm points
+
+cosmsData=tibble(iX=numeric(),iY=numeric(),iZ=numeric(),wkerma=numeric())
+cosmsDataNeat=tibble(x=numeric(),y=numeric(),z=numeric(),wkerma=numeric())
+for(itr in 1:dim(cosms)[1]){
+  print(cosms[itr,])
+  cosmsData=bind_rows(cosmsData,ungroup(summarise(group_by(filter(data,iX<=cosms[itr,]$x+smoother & iX>=cosms[itr,]$x-smoother,iY<=cosms[itr,]$y+smoother & iY>=cosms[itr,]$y-smoother,iZ==cosms[itr,]$z),iX,iY,iZ),wkerma=mean(wkerma))))
+  cosmsDataNeat=add_row(cosmsDataNeat,x=cosms[itr,]$x,y=cosms[itr,]$y,z=cosms[itr,]$z,wkerma=as.numeric(ungroup(summarise((filter(data,iX<=cosms[itr,]$x+smoother & iX>=cosms[itr,]$x-smoother,iY<=cosms[itr,]$y+smoother & iY>=cosms[itr,]$y-smoother,iZ==cosms[itr,]$z)),wkerma=mean(wkerma)))))
+}
+
+# Grabbing simulated data for smoother points around ssdl points
+
+ssdlData=tibble(iX=numeric(),iY=numeric(),iZ=numeric(),wkerma=numeric())
+ssdlDataNeat=tibble(x=numeric(),y=numeric(),z=numeric(),wkerma=numeric())
+for(itr in 1:dim(ssdl)[1]){
+  print(ssdl[itr,])
+  ssdlData=bind_rows(ssdlData,ungroup(summarise(group_by(filter(data,iX<=ssdl[itr,]$x+smoother & iX>=ssdl[itr,]$x-smoother,iY<=ssdl[itr,]$y+smoother & iY>=ssdl[itr,]$y-smoother,iZ==ssdl[itr,]$z),iX,iY,iZ),wkerma=mean(wkerma))))
+  ssdlDataNeat=add_row(ssdlDataNeat,x=ssdl[itr,]$x,y=ssdl[itr,]$y,z=ssdl[itr,]$z,wkerma=as.numeric(ungroup(summarise((filter(data,iX<=ssdl[itr,]$x+smoother & iX>=ssdl[itr,]$x-smoother,iY<=ssdl[itr,]$y+smoother & iY>=ssdl[itr,]$y-smoother,iZ==ssdl[itr,]$z)),wkerma=mean(wkerma)))))
+}
+
+#cairo_ps(outGraphLengthCosms,width=3.125,height=2.25)
+#plot(cosms$kerma ~ cosmsFullCurrentSource$kerma)
+#dev.off()
+
+cairo_ps(outGraphLength,width=3.125,height=2.25)
+g=ggplot()
+g+geom_area(data=lengthData,aes(x=(1/(iZ*iZ)),y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=lengthData,aes(x=(1/(iZ*iZ)),y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,x==0,y==78),aes(x=(1/(z*z)),ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black")+xlab("length [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=0cm y=78cm z=[]")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")
+dev.off()
+
+cairo_ps(outGraphWidth102cm,width=3.125,height=2.25)
+g=ggplot()
+g+geom_area(data=filter(widthData,iZ==102),aes(x=iX,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(widthData,iZ==102),aes(x=iX,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,y==78,z==102),aes(x=x,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=2)+xlab("width [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=[] y=78cm z=102cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(-30,30)#+ylim(0,2)
+dev.off()
+
+cairo_ps(outGraphHeight102cm,width=1.875,height=2.25)
+g=ggplot()
+g+geom_area(data=filter(heightData,iZ==102),aes(x=iY,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(heightData,iZ==102),aes(x=iY,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,x==0,z==102),aes(x=y,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=2)+xlab("height [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=0cm y=[] z=102cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(65,95)#+ylim(0,2)
+dev.off()
+
+cairo_ps(outGraphWidth902cm,width=3.125,height=2.25)
+g=ggplot()
+g+geom_area(data=filter(widthData,iZ==902),aes(x=iX,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(widthData,iZ==902),aes(x=iX,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,y==78,z==902),aes(x=x,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=20)+xlab("width [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=[] y=78cm z=902cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(-300,300)#+ylim(0,2)
+dev.off()
+
+cairo_ps(outGraphHeight902cm,width=1.875,height=2.25)
+g=ggplot()
+g+geom_area(data=filter(heightData,iZ==902),aes(x=iY,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(heightData,iZ==902),aes(x=iY,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,x==0,z==902),aes(x=y,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=20)+xlab("height [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=0cm y=[] z=902cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(0,300)#+ylim(0,2)
+dev.off()
+
+cairo_ps(outGraphWidth1502cm,width=3.125,height=2.25)
+g=ggplot()
+g+geom_area(data=filter(widthData,iZ==1502),aes(x=iX,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(widthData,iZ==1502),aes(x=iX,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,y==78,z==1502),aes(x=x,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=20)+xlab("width [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=[] y=78cm z=1502cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(-300,300)#+ylim(0,2)
+dev.off()
+
+cairo_ps(outGraphHeight1502cm,width=1.875,height=2.25)
+g=ggplot()
+g+geom_area(data=filter(heightData,iZ==1502),aes(x=iY,y=wkerma),alpha=0.25)+scale_fill_brewer(palette="BrBG",direction=-1)+geom_line(data=filter(heightData,iZ==1502),aes(x=iY,y=wkerma),color="grey42",size=0.5,position="stack")+scale_color_brewer(palette="OrRd",direction=-1)+geom_errorbar(data=filter(ssdl,x==0,z==1502),aes(x=y,ymin=kerma-kerma*3.2/100,ymax=kerma+kerma*3.2/100),size=1.0,color="black",width=20)+xlab("height [cm]")+ylab("air kerma rate [mGy/h]")+labs(caption="20/02/2013 x=0cm y=[] z=1502cm")+theme_minimal()+theme(plot.caption=element_text(color="grey69"),legend.position="none")+xlim(0,300)#+ylim(0,2)
+dev.off()
+
+
+#g=ggplot(widthData,aes(x=iX,y=value))
+#g+facet_wrap(~iZ,ncol=3)+geom_point()+xlab("width [cm]")+ylab("")+theme_minimal()
+
+#g=ggplot(heightData,aes(x=iY,y=value))
+#g+facet_wrap(~iZ,ncol=3)+geom_point()+xlab("height [cm]")+ylab("")+theme_minimal()
+
+
+```

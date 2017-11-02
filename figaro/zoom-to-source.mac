@@ -1,0 +1,22 @@
+
+# FIGARO zoom to source macro
+# $ 07/2017 lindbohansen@gmail.com $
+
+/vis/viewer/set/viewpointThetaPhi 0 90
+/vis/viewer/zoom 2
+/vis/viewer/zoom 2
+/vis/viewer/pan -1 -1
+/vis/viewer/zoom 2
+/vis/viewer/pan -0.5 0
+/vis/viewer/zoom 2 
+/vis/viewer/zoom 2
+/vis/viewer/pan 0 0.3
+/vis/viewer/pan 0.35 0
+/vis/viewer/zoom 2
+/vis/viewer/zoom 2
+/vis/scene/endOfEventAction accumulate 1000
+
+/run/setCut 1. m
+/run/printProgress 100
+/run/beamOn 1000
+

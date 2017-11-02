@@ -1,0 +1,4 @@
+currentSource2003=summarise(group_by(filter(data,sH==-73.5),iX,iY,iZ),value=sum(value))
+currentSource2003$value=currentSource2003$value*8
+currentSource2013t=summarise(group_by(filter(data,sH==-74.5,sW!=-151.5),iX,iY,iZ),value=sum(value))
+currentSource2003$value=currentSource2003$value*8

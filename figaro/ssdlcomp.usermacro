@@ -1,0 +1,49 @@
+
+# FIGARO fluence macro
+# $ 07/2017 lindbohansen@gmail.com $
+
+# Mesh 100cm
+/score/create/boxMesh myMesh1m
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 500 294 1
+# -958.5 + 100
+/score/mesh/translate/xyz -151.5 0 -858.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/doseDeposit dose
+/score/close
+
+# Mesh 902cm
+/score/create/boxMesh myMesh9m
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 500 294 1
+# -958.5 + 902
+/score/mesh/translate/xyz -151.5 0 -56.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/doseDeposit dose
+/score/close
+
+# Mesh 1502cm
+/score/create/boxMesh myMesh15m
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 500 294 1
+# -958.5 + 1502
+/score/mesh/translate/xyz -151.5 0 543.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/doseDeposit dose
+/score/close
+
+/run/setCut 1. m
+/run/printProgress 10000
+/vis/disable
+/run/beamOn 100000000
+/vis/enable
+/vis/reviewKeptEvents
+
+#/score/drawProjection myMesh myQuant
+
+/score/dumpQuantityToFile myMesh1m gammaFlux myMesh100cm.csv
+/score/dumpQuantityToFile myMesh9m gammaFlux myMesh902cm.csv
+/score/dumpQuantityToFile myMesh15m gammaFlux myMesh1502cm.csv

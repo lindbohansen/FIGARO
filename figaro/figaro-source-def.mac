@@ -1,0 +1,126 @@
+
+# FIGARO source definition
+# $ 07/2017 lindbohansen@gmail.com $
+
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -76.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/source/intensity 120
+
+/gps/source/add 120
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -76.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+
+/gps/source/add 120
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -75.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+
+/gps/source/add 120
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -75.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+
+/gps/source/add 120
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -74.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+
+/gps/source/add 120
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -74.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+
+/gps/source/add 54
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -73.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+
+/gps/source/add 54
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -73.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+
+/gps/source/add 32
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -72.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+
+/gps/source/add 32
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1. cm
+/gps/pos/halfz 0.5 cm
+/gps/pos/centre -151.5 -72.5 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+
+###
+

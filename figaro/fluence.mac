@@ -1,0 +1,85 @@
+
+# FIGARO fluence macro
+# $ 07/2017 lindbohansen@gmail.com $
+
+# Mesh 1m
+/score/create/boxMesh myMesh1m
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 500 294 1
+# -958.5 + 100
+/score/mesh/translate/xyz -151.5 0 -858.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/doseDeposit dose
+/score/close
+
+# Mesh 2m
+/score/create/boxMesh myMesh2m
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 500 294 1
+# -958.5 + 200
+/score/mesh/translate/xyz -151.5 0 -758.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/doseDeposit dose
+/score/close
+
+# Mesh 5m
+/score/create/boxMesh myMesh5m
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 500 294 1
+# -958.5 + 500
+/score/mesh/translate/xyz -151.5 0 -458.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/doseDeposit dose
+/score/close
+
+# Mesh 9m
+/score/create/boxMesh myMesh9m
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 500 294 1
+# -958.5 + 900
+/score/mesh/translate/xyz -151.5 0 -58.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/doseDeposit dose
+/score/close
+
+# Mesh 15m
+/score/create/boxMesh myMesh15m
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 500 294 1
+# -958.5 + 1500
+/score/mesh/translate/xyz -151.5 0 541.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/doseDeposit dose
+/score/close
+
+# Mesh 19m
+/score/create/boxMesh myMesh19m
+/score/mesh/boxSize 250. 147. 0.05 cm
+/score/mesh/nBin 500 294 1
+# -958.5 + 1900
+/score/mesh/translate/xyz -151.5 0 941.5 cm
+/score/quantity/cellFlux gammaFlux
+/score/filter/particle gammaFilter gamma
+/score/quantity/doseDeposit dose
+/score/close
+
+/run/setCut 1. m
+/run/printProgress 10000
+/vis/disable
+/run/beamOn 100000000
+/vis/enable
+/vis/reviewKeptEvents
+
+#/score/drawProjection myMesh myQuant
+
+/score/dumpQuantityToFile myMesh1m gammaFlux myMesh1m.csv
+/score/dumpQuantityToFile myMesh2m gammaFlux myMesh2m.csv
+/score/dumpQuantityToFile myMesh5m gammaFlux myMesh5m.csv
+/score/dumpQuantityToFile myMesh9m gammaFlux myMesh9m.csv
+/score/dumpQuantityToFile myMesh15m gammaFlux myMesh15m.csv
+/score/dumpQuantityToFile myMesh19m gammaFlux myMesh19m.csv

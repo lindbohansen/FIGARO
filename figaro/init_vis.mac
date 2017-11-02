@@ -1,0 +1,26 @@
+
+# init_vis.mac for FIGARO
+# $ 07/2017 lindbohansen@gmail.com $
+
+#
+# Set some default verbose
+#
+/control/verbose 2
+/control/saveHistory
+/run/verbose 1
+#
+# Change the default number of threads (in multi-threaded mode)
+/run/numberOfThreads 2
+#
+
+# Initialize kernel
+/run/initialize
+
+# Set the FIGARO source
+/control/execute figaro-source-def.mac
+
+# Visualization setting
+/control/execute vis.mac
+
+# List the FIGARO source
+/gps/source/list
