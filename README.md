@@ -1,7 +1,7 @@
 # FIGARO
 A framework for exposure characterization and gamma dosimetry at the NMBU FIGARO irradiation facility.
 
---> (this directory is undergoing cleanup) <--
+--> (this source code for this project is currently undergoing extensive cleanup) <--
 
 $ 2017 lindbohansen@gmail.com $
 
