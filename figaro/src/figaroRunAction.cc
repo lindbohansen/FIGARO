@@ -108,8 +108,8 @@ void figaroRunAction::EndOfRunAction(const G4Run* run)
   }      
   G4cout
      << G4endl
-     << " Dose1: " << G4BestUnit(fSumDose1.GetValue(),"Dose")  << G4endl
-     << " Dose2: " << G4BestUnit(fSumDose2.GetValue(),"Dose")  << G4endl
+     << " Dose1: " << fSumDose1.GetValue()/gray  << " Gy "<< G4endl
+     << " Dose2: " << fSumDose2.GetValue()/gray  << " Gy "<< G4endl
      << G4endl 
      << "------------------------------------------------------------" << G4endl 
      << G4endl;
