@@ -157,21 +157,9 @@ G4VPhysicalVolume* figaroDetectorConstruction::DefineVolumes()
   auto vSteelSourceHeight = 6.9*cm;
   auto vSteelSourceLength = 3.0*cm; 
 
-  auto vSteelTopSourceWidth    = 2.0*cm; // was 2.5*cm
-  auto vSteelTopSourceHeight   = 2.5*cm; // was 1.*cm // was 2.*cm
-  auto vSteelTopSourceLength   = 2.0*cm; // was 2.5*cm
-
-  auto vSteelBottomSourceWidth    = 3.0*cm; // was 3.5*cm
-  auto vSteelBottomSourceHeight   = 3.5*cm; // was 1.*cm // was 2.*cm // was 3.*cm
-  auto vSteelBottomSourceLength   = 3.0*cm; // was 3.5*cm
-
-  auto vCoTopSourceWidth         = 1.5*cm; // was 1.5*cm
-  auto vCoTopSourceHeight        = 2.*cm; // was 0.5*cm // was 1.*cm
-  auto vCoTopSourceLength        = 1.5*cm; // was 1.5*cm
-
-  auto vCoBottomSourceWidth      = 2.5*cm; // was 2.5*cm
-  auto vCoBottomSourceHeight     = 3.*cm; // was 0.5*cm // was 1.*cm // was 2.*cm
-  auto vCoBottomSourceLength     = 2.5*cm; // was 2.5*cm
+  auto vInnerSteelSourceWidth  = 1.0*cm;
+  auto vInnerSteelSourceHeight = 6.9*cm;
+  auto vInnerSteelSourceLength = 1.0*cm; 
 
   auto vThinWallThickness = 1.*cm; // was 10.*cm // was 5.*cm
   auto vThinWallWidth  = vRoomBackWidth-vRoomFrontWidth-vThinWallThickness;
@@ -233,37 +221,19 @@ G4VPhysicalVolume* figaroDetectorConstruction::DefineVolumes()
 	//new G4PVPlacement(0,G4ThreeVector(0,-vHousingHeight/2+vInnerHeight/2+vOuterHeightAboveFloor-vAdjustDisplacement,0),fLSourceChamber,"SourceChamber",fLHousing,false,0);
         new G4PVPlacement(0,G4ThreeVector(0,-vHousingHeight/2+vSourceChamberHeight/2+vOuterHeightAboveFloor-vAdjustDisplacement,0),fLSourceChamber,"SourceChamber",fLHousing,false,0);
 
-        G4RotationMatrix* rotTop = new G4RotationMatrix();
-	rotTop->rotateX(90*deg);
-
-        G4RotationMatrix* rotBottom = new G4RotationMatrix();
-        rotBottom->rotateX(90*deg);
+        G4RotationMatrix* rotSteel = new G4RotationMatrix();
+	rotSteel->rotateX(90*deg);
 
 	G4EllipticalTube* sSteelSource = new G4EllipticalTube("SteelSource",vSteelSourceWidth/2,vSteelSourceLength/2,vSteelSourceHeight/2);
         G4LogicalVolume* fLSteelSource = new G4LogicalVolume(sSteelSource,fSteel,"SteelSource");
-        new G4PVPlacement(rotBottom,G4ThreeVector(0,-vSourceChamberHeight/2+vSteelSourceHeight/2,0),fLSteelSource,"SteelSource",fLSourceChamber,false,0);
+        new G4PVPlacement(rotSteel,G4ThreeVector(0,-vSourceChamberHeight/2+vSteelSourceHeight/2,0),fLSteelSource,"SteelSource",fLSourceChamber,false,0);
+        //new G4PVPlacement(rotBottom,G4ThreeVector(0,-vSourceChamberHeight/2-((vSteelTopSourceHeight+vSteelBottomSourceHeight)/2)/2,0),fLSteelBottomSource,"SteelBottomSource",fLSourceChamber,false,0);
+
+	G4EllipticalTube* sInnerSteelSource = new G4EllipticalTube("InnerSteelSource",vInnerSteelSourceWidth/2,vInnerSteelSourceLength/2,vInnerSteelSourceHeight/2);
+        G4LogicalVolume* fLInnerSteelSource = new G4LogicalVolume(sInnerSteelSource,fSteel,"InnerSteelSource");
+        new G4PVPlacement(0,G4ThreeVector(0,0,0),fLInnerSteelSource,"InnerSteelSource",fLSteelSource,false,0);
         //new G4PVPlacement(rotBottom,G4ThreeVector(0,-vSourceChamberHeight/2-((vSteelTopSourceHeight+vSteelBottomSourceHeight)/2)/2,0),fLSteelBottomSource,"SteelBottomSource",fLSourceChamber,false,0);
         
-        /*
-	G4EllipticalTube* sSteelTopSource = new G4EllipticalTube("SteelTopSource",vSteelTopSourceWidth/2,vSteelTopSourceLength/2,vSteelTopSourceHeight/2);
-        G4LogicalVolume* fLSteelTopSource = new G4LogicalVolume(sSteelTopSource,fSteel,"SteelTopSource");
-        new G4PVPlacement(rotTop,G4ThreeVector(0,-vSourceChamberHeight/2+vSteelTopSourceHeight/2+vSteelBottomSourceHeight,0),fLSteelTopSource,"SteelTopSource",fLSourceChamber,false,0);
-        //new G4PVPlacement(rotTop,G4ThreeVector(0,-vSourceChamberHeight/2+((vSteelTopSourceHeight+vSteelBottomSourceHeight)/2)/2,0),fLSteelTopSource,"SteelTopSource",fLSourceChamber,false,0);
-
-        G4EllipticalTube* sSteelBottomSource = new G4EllipticalTube("SteelBottomSource",vSteelBottomSourceWidth/2,vSteelBottomSourceLength/2,vSteelBottomSourceHeight/2);
-        G4LogicalVolume* fLSteelBottomSource = new G4LogicalVolume(sSteelBottomSource,fSteel,"SteelBottomSource");
-        new G4PVPlacement(rotBottom,G4ThreeVector(0,-vSourceChamberHeight/2+vSteelBottomSourceHeight/2,0),fLSteelBottomSource,"SteelBottomSource",fLSourceChamber,false,0);
-        //new G4PVPlacement(rotBottom,G4ThreeVector(0,-vSourceChamberHeight/2-((vSteelTopSourceHeight+vSteelBottomSourceHeight)/2)/2,0),fLSteelBottomSource,"SteelBottomSource",fLSourceChamber,false,0);
-
-        G4EllipticalTube* sCoTopSource = new G4EllipticalTube("CoTopSource",vCoTopSourceWidth/2,vCoTopSourceLength/2,vCoTopSourceHeight/2);
-        G4LogicalVolume* fLCoTopSource = new G4LogicalVolume(sCoTopSource,fCobalt,"CoTopSource");
-        new G4PVPlacement(0,G4ThreeVector(0,0,0),fLCoTopSource,"CoTopSource",fLSteelTopSource,false,0);
-
-        G4EllipticalTube* sCoBottomSource = new G4EllipticalTube("CoBottomSource",vCoBottomSourceWidth/2,vCoBottomSourceLength/2,vCoBottomSourceHeight/2);
-        G4LogicalVolume* fLCoBottomSource = new G4LogicalVolume(sCoBottomSource,fCobalt,"CoBottomSource");
-        new G4PVPlacement(0,G4ThreeVector(0,0,0),fLCoBottomSource,"CoBottomSource",fLSteelBottomSource,false,0);
-        */
-
   return pWorld;
 }
 
