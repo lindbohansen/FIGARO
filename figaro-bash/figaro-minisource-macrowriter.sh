@@ -55,6 +55,7 @@ do
 	echo "/gps/ang/type iso" >> $filename
 	echo "/gps/energy 1.17 MeV" >> $filename
 	echo "/gps/source/intensity 1" >> $filename
+	echo "/gps/pos/confine SteelSource" >> $filename
 
 	echo "/gps/source/add 1" >> $filename
 	echo "/gps/particle gamma" >> $filename
@@ -67,6 +68,7 @@ do
 	echo "/gps/pos/rot2 0 0 1" >> $filename
 	echo "/gps/ang/type iso" >> $filename
 	echo "/gps/energy 1.33 MeV" >> $filename
+	echo "/gps/pos/confine SteelSource" >> $filename
 
 	echo "###" >> $filename
     fi
