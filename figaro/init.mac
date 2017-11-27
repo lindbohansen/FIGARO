@@ -10,14 +10,14 @@
 /run/verbose 1
 #
 # Change the default number of threads (in multi-threaded mode)
-/run/numberOfThreads 8
+/run/numberOfThreads 2
 #
 
 # Initialize kernel
 /run/initialize
 
 # Set the FIGARO source
-/control/execute figaro-source-def.mac
+/control/execute figaro-fullsource.mac
 
 # Visualization setting
 #/control/execute vis.mac
