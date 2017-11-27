@@ -17,7 +17,7 @@
 /run/initialize
 
 # Set the FIGARO source
-/control/execute figaro-source-def.mac
+/control/execute figaro-fullsource.mac
 
 # Visualization setting
 /control/execute vis.mac
