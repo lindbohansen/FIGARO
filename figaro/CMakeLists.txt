@@ -46,7 +46,7 @@ target_link_libraries(figaro ${Geant4_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 set(FIGARO_SCRIPTS
-  figaro-source-def.mac
+  figaro-fullsource.mac
   init.mac
   init_vis.mac
   vis.mac
