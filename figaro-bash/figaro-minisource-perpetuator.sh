@@ -56,10 +56,10 @@ then
 		  echo "Sweet! Let's play around with FIGARO for a while."
 		  sleep 1.5
 		  # NB DANGEROUS NEED TO COPY BACK SOURCE
-		  cp figaro-source-def.mac temp.mac
-		  cp $macroName figaro-source-def.mac
+		  cp figaro-fullsource.mac temp.mac
+		  cp $macroName figaro-fullsource.mac
 		  ./figaro
-		  cp temp.mac figaro-source-def.mac
+		  cp temp.mac figaro-fullsource.mac
 		else
 		  echo "I can't find that macro. Sorry!"  
 		fi
@@ -105,10 +105,10 @@ then
 		      mkdir -p $thisLoopDir
 		      echo "Starting loop $thisLoop at $now..."		  
 		      # NB DANGEROUS NEED TO COPY BACK SOURCE
-		      cp figaro-source-def.mac temp.mac
-		      cp $minimac figaro-source-def.mac
+		      cp figaro-fullsource.mac temp.mac
+		      cp $minimac figaro-fullsource.mac
 		      ./figaro -m $macroName > $thisLoopDir/$thisLoop.out
-		      cp temp.mac figaro-source-def.mac
+		      cp temp.mac figaro-fullsource.mac
 		      # Handle any output .csv files
 		      cp ${dirFIGARO%/}/figaro-build/*.csv $thisLoopDir/
 		      #for csvFile in $dirFIGARO/figaro-build/*.csv
