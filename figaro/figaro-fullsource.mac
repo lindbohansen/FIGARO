@@ -1,5 +1,391 @@
 # FIGARO source iterator
 # $ 07/2017 lindbohansen@gmail.com $
+###
+# source 1.17 MeV
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -76.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/source/intensity 0.03959432740317878
+# source 1.33 MeV
+/gps/source/add 0.03959432740317878
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -76.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.008376851183082267
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -76.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.008376851183082267
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -76.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.08361611486838914
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -75.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.08361611486838914
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -75.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.020642705002576534
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -75.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.020642705002576534
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -75.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.1441631421315903
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -74.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.1441631421315903
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -74.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.05245524315734759
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -74.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.05245524315734759
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -74.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.012209512084546823
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -73.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.012209512084546823
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -73.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.0028667692212367706
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -73.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.0028667692212367706
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -73.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.025658939603165152
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -72.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.025658939603165152
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -72.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.005609549504458619
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -72.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.005609549504458619
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -72.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.008608878621630749
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -71.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+# source 1.33 MeV
+/gps/source/add 0.008608878621630749
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 0.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -71.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+###
+# source 1.17 MeV
+/gps/source/add 0.02493950140668379
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -76.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0.02493950140668379
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -76.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 0
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -76.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -76.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 0.08835733180615815
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -75.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0.08835733180615815
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -75.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 0.02322304312789867
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -75.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0.02322304312789867
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -75.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 0.11952405072474108
 /gps/particle gamma
 /gps/pos/type Volume
 /gps/pos/shape Cylinder
@@ -9,6 +395,181 @@
 /gps/pos/rot1 1 0 0
 /gps/pos/rot2 0 0 1
 /gps/ang/type iso
-/gps/energy 1. keV
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0.11952405072474108
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -74.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 0.05901214855201601
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -74.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0.05901214855201601
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -74.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 0
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -73.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -73.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 4.263692243519664e-4
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -73.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 4.263692243519664e-4
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -73.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 0.010717975887448498
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -72.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0.010717975887448498
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -72.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 0.0034692522471319103
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -72.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0.0034692522471319103
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -72.25 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
+/gps/pos/confine SteelSource
+###
+# source 1.17 MeV
+/gps/source/add 0.007060281028497831
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -71.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.17 MeV
+/gps/pos/confine SteelSource
+# source 1.33 MeV
+/gps/source/add 0.007060281028497831
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/radius 1.5 cm
+/gps/pos/halfz 0.25 cm
+/gps/pos/centre -151.5 -71.75 -958.5 cm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+/gps/energy 1.33 MeV
 /gps/pos/confine SteelSource
 ###
