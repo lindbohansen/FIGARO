@@ -1,13 +1,15 @@
+$ 2017 lindbohansen@gmail.com $
+
 # FIGARO
 A framework for exposure characterization and gamma dosimetry at the NMBU FIGARO irradiation facility.
 
 --> (the source code for this project is currently undergoing extensive cleanup) <--
 
-$ 2017 lindbohansen@gmail.com $
+Access the framework at https://github.com/lindbohansen/FIGARO/
 
-#### FIGARO software bundle
+Look for upcoming user documentation and examples at https://github.com/lindbohansen/FIGARO.wiki.git
 
-read about FIGARO under FIGARO/figaro-article --> currently unavailable as the article has been submitted for publication to the DoReMi special issue of the International Journal of Radiation Biology
+Read about FIGARO under FIGARO/figaro-article --> currently unavailable as the article has been submitted for publication to the DoReMi special issue of the International Journal of Radiation Biology
 
 #### see bundle contents at the end of this file
 
