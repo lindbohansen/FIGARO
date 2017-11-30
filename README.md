@@ -7,7 +7,7 @@ A framework for exposure characterization and gamma dosimetry at the NMBU FIGARO
 
 Access the framework at https://github.com/lindbohansen/FIGARO/
 
-Look for upcoming user documentation and examples at https://github.com/lindbohansen/FIGARO.wiki.git
+Look for upcoming user documentation and examples at https://github.com/lindbohansen/FIGARO/wiki
 
 Read about FIGARO under FIGARO/figaro-article --> currently unavailable as the article has been submitted for publication to the DoReMi special issue of the International Journal of Radiation Biology
 
