@@ -22,7 +22,7 @@ library(glmnet)
 
 ```{r run-this-file, eval=FALSE, include=FALSE}
 
-### run with: Rscript -e "date=date() ; rmarkdown::render('dosereport.Rmd',params=list(inFullPath='/home/elhansen/FIGARO/figaro-dosereport'))"
+### run with e.g.: Rscript -e "date=date() ; rmarkdown::render('dosereport.Rmd',params=list(inFullPath='/home/elhansen/FIGARO/figaro-dosereport'))"
 
 ```
 
@@ -39,7 +39,6 @@ Co60halflifeindays=1925.20
 
 sourcedistanceoffsetcm=41.7
 
-# modify to read from file specified as input to running of script
 ssdl=read_csv("../figaro/ssdl-2013.csv")
 ssdl=filter(ssdl,Xcm==0,Ycm==78)
 varx=ssdl$Zcm
@@ -79,9 +78,9 @@ fullsetupmaster=mutate(fullsetupmaster,ssdlAxisAirKermaRatemGyperh=(exp(ssdlmode
 
 #fullsetupmaster=mutate(fullsetupmaster,ssdlAxisAirKermaRatemGyperh=(exp(ssdlmodel$coefficients[1]+ssdlmodel$coefficients[2]*log(Zcm)+ssdlmodel$coefficients[3]*Zcm)*(2^(-(as.numeric(rotationstart-mean(ssdl$refdate),unit="days"))/Co60halflifeindays)+2^(-(as.numeric(rotationstop-mean(ssdl$refdate),unit="days"))/Co60halflifeindays))/2))
 
-fullsetupmaster=mutate(fullsetupmaster,wholesetupAbsorbedDoseRatemGyperh=(wholesetupAbsorbedDoseRatemGyperh)*(2^(-(as.numeric(rotationstart-absorbedDoseRateRefDate,unit="days"))/Co60halflifeindays)+2^(-(as.numeric(rotationstop-absorbedDoseRateRefDate,unit="days"))/Co60halflifeindays))/2)
+fullsetupmaster=mutate(fullsetupmaster,absorbedDoseRatemGyperh=(absorbedDoseRatemGyperh)*(2^(-(as.numeric(rotationstart-absorbedDoseRateRefDate,unit="days"))/Co60halflifeindays)+2^(-(as.numeric(rotationstop-absorbedDoseRateRefDate,unit="days"))/Co60halflifeindays))/2)
 
-fullsetupmaster=mutate(fullsetupmaster,wholesetupAbsorbedDoseGy=wholesetupAbsorbedDoseRatemGyperh*as.numeric(rotationtime,unit="hours")/1e3)
+fullsetupmaster=mutate(fullsetupmaster,absorbedDoseGy=absorbedDoseRatemGyperh*as.numeric(rotationtime,unit="hours")/1e3)
 
 fullsetupmaster=mutate(fullsetupmaster,left=Xcm-xcm/2,right=Xcm+xcm/2)
 fullsetupmaster=mutate(fullsetupmaster,bottom=Ycm,top=Ycm+ycm)
@@ -97,7 +96,7 @@ fullnanodotmaster=inner_join(fullnanodotmaster,nanodotreadings)
 
 ### TODO to verify nanodotmaster
 
-fullnanodotmaster=mutate(fullnanodotmaster,readingrate=((postExposureReading-preExposureReading)/as.numeric(rotationtime,units="hours")))
+fullnanodotmaster=mutate(fullnanodotmaster,readingrate=((postExposureReadingmGyperh-preExposureReadingmGyperh)/as.numeric(rotationtime,units="hours")))
 
 fullnanodotmaster=mutate(fullnanodotmaster,ssdlAxisAirKermaRatemGyperh=(exp(ssdlmodel$coefficients[1]+ssdlmodel$coefficients[2]*log(Zcm)+ssdlmodel$coefficients[3]*Zcm)*(2^(-(as.numeric(min(fullnanodotmaster$rotationstart)-mean(ssdl$refdate),unit="days"))/Co60halflifeindays)+2^(-(as.numeric(max(fullnanodotmaster$rotationstop)-mean(ssdl$refdate),unit="days"))/Co60halflifeindays))/2))
 
@@ -135,7 +134,9 @@ kable(select(count(fullsetupmaster,type,xcm,ycm,zcm,approximateshape,actualshape
 
 ### Positions
 
-Setups were placed at the following positions in the field (see figure below), where Xcm refers to the distance from the central field axis to the midpoint of the setup in the direction going outwards from the door; Ycm refers to the distance from the floor to the lowest point of the setup in the direction going upwards from the floor; and Zcm refers to the distance from the source focus to the front face of the setup in the direction going outwards from the source towards the backwall (this distance equals the distance from the exit face of the collimator to the setup front face plus `r sourcedistanceoffsetcm` cm). SSDL-defined field axis air kerma rates list the mean of air kerma rates free in air on the SSDL-defined field axis at the specified distances of Zcm to the source focus on the exposure start (`r format(min(fullsetupmaster$rotationstart),tz="CET")`) and end (`r format(max(fullsetupmaster$rotationstop),tz="CET")`) dates. Note that these are mean air kerma rates on the SSDL-defined field axis. Setups that are placed closer to the central field axis may receive slightly higher mean air kerma rates. Setups that are placed farther away from the central field axis than the SSDL-defined field axis, will generally receive lower mean air kerma rates.
+Setups were placed at the following positions in the field (see figure below), where Xcm refers to the distance from the central field axis to the midpoint of the setup in the direction going outwards from the door; Ycm refers to the distance from the floor to the lowest point of the setup in the direction going upwards from the floor; and Zcm refers to the distance from the source focus to the front face of the setup in the direction going outwards from the source towards the backwall (this distance equals the distance from the exit face of the collimator to the setup front face plus `r sourcedistanceoffsetcm` cm). 
+
+SSDL-defined field axis air kerma rates list the mean of air kerma rates free in air on the SSDL-defined field axis at the specified distances of Zcm to the source focus on the exposure start (`r format(min(fullsetupmaster$rotationstart),tz="CET")`) and end (`r format(max(fullsetupmaster$rotationstop),tz="CET")`) dates. Note that these are mean air kerma rates on the SSDL-defined field axis. Setups that are placed closer to the central field axis may receive slightly higher mean air kerma rates. Setups that are placed farther away from the central field axis than the SSDL-defined field axis, will generally receive lower mean air kerma rates.
 
 ```{r positions, eval=TRUE, echo=FALSE}
 
@@ -166,13 +167,13 @@ kable(select(count(fullsetupmaster,rotation,rotationstart,rotationstop,rotationt
 
 ```
 
-### Minimum, maximum and average whole-setup absorbed dose rates and accumulated absorbed doses
+### Minimum, maximum and average absorbed dose rates and accumulated absorbed doses
 
-Setups received the following accumulated whole-setup absorbed doses (accumulated_Gy), at the following average (avg_mGyperh), minimum (min_mGyperh) and maximum (max_mGyperh) whole-setup absorbed dose rates.
+Setups received the following accumulated absorbed doses (accumulated_Gy), at the following average (avg_mGyperh), minimum (min_mGyperh) and maximum (max_mGyperh) absorbed dose rates.
 
 ```{r fulldoses, eval=TRUE, echo=FALSE}
 
-fulldoses=ungroup(summarise(group_by(fullsetupmaster,id,front,materials,absorbedDoseRateToWhat),accumulated_Gy=signif(sum(wholesetupAbsorbedDoseGy),2),accumulated_time=signif(as.numeric(sum(rotationtime),unit="days"),3),avg_mGyperh=signif(sum(wholesetupAbsorbedDoseGy)/as.numeric(sum(rotationtime),unit="hours")*1000,2),min_mGyperh=signif(min(wholesetupAbsorbedDoseRatemGyperh),2),max_mGyperh=signif(max(wholesetupAbsorbedDoseRatemGyperh),2)))
+fulldoses=ungroup(summarise(group_by(fullsetupmaster,id,front,materials,absorbedDoseRateToWhat),accumulated_Gy=signif(sum(absorbedDoseGy),2),accumulated_time=signif(as.numeric(sum(rotationtime),unit="hours"),3),avg_mGyperh=signif(sum(absorbedDoseGy)/as.numeric(sum(rotationtime),unit="hours")*1000,2),min_mGyperh=signif(min(absorbedDoseRatemGyperh),2),max_mGyperh=signif(max(absorbedDoseRatemGyperh),2)))
 
 fulldoses=arrange(fulldoses,desc(accumulated_Gy),desc(avg_mGyperh))
 fulldosesout=fulldoses
@@ -188,7 +189,7 @@ kable(select(arrange(fulldosesout,desc(numeric_accumulated_Gy)),id,accumulated_G
 
 You can report information from this table in your work e.g. as:
 
-Setup `r fulldosesout[1,1]` received an accumulated whole-setup absorbed dose to `r fulldosesout[1,4]` of `r fulldosesout[1,5]` Gy over `r fulldosesout[1,6]` days at an average whole-setup absorbed dose rate of `r fulldosesout[1,7]` mGy/h (range from `r fulldosesout[1,8]` mGy/h to `r fulldosesout[1,9]` mGy/h).
+Setup `r fulldosesout[1,1]` received an accumulated absorbed dose to `r fulldosesout[1,4]` of `r fulldosesout[1,5]` Gy over a net exposure time of `r fulldosesout[1,6]` hours at an average beam-on absorbed dose rate of `r fulldosesout[1,7]` mGy/h (range from `r fulldosesout[1,8]` mGy/h to `r fulldosesout[1,9]` mGy/h).
 
 
 ```{r fulldoses-fig-accumulated, eval=TRUE, echo=FALSE}
@@ -198,7 +199,7 @@ g=ggplot(data=arrange(fulldoses,desc(accumulated_Gy)),aes(x=fct_inorder(id),colo
 g+facet_grid(~front,labeller="label_both")+geom_point(aes(y=accumulated_Gy),size=3)+xlab("setup id")+ylab("accumulated whole-setup absorbed dose [Gy]")+theme_minimal()+theme(legend.position="none",axis.text.x=element_text(angle = 90))
 
 ```
-Fig: Accumulated whole-setup absorbed dose per setup.
+Fig: Accumulated absorbed doses per setup.
 
 
 ```{r fulldoses-fig-accumulated-log, eval=TRUE, echo=FALSE}
@@ -206,7 +207,7 @@ Fig: Accumulated whole-setup absorbed dose per setup.
 g+facet_grid(~front,labeller="label_both")+geom_point(aes(y=accumulated_Gy),size=3)+scale_y_log10()+xlab("setup id")+ylab("accumulated whole-setup absorbed dose [Gy]")+theme_minimal()+theme(legend.position="none",axis.text.x=element_text(angle = 90))
 
 ```
-Fig: Accumulated whole-setup absorbed dose per setup with a logarithmic y-axis.
+Fig: Accumulated absorbed doses per setup with a logarithmic y-axis.
 
 
 ```{r fulldoses-fig-avg, eval=TRUE, echo=FALSE}
@@ -216,7 +217,7 @@ g=ggplot(data=arrange(fulldoses,desc(accumulated_Gy)),aes(x=fct_inorder(id),colo
 g+facet_grid(~front,labeller="label_both")+geom_errorbar(aes(ymin=min_mGyperh,ymax=max_mGyperh),size=1,alpha=0.5)+geom_point(aes(y=avg_mGyperh),size=3)+xlab("setup id")+ylab("average whole-setup absorbed dose rate [mGy/h]")+theme_minimal()+theme(legend.position="none",axis.text.x=element_text(angle = 90))
 
 ```
-Fig: Average, minimum and maximum whole-setup absorbed dose rates per setup.
+Fig: Average, minimum and maximum absorbed dose rates per setup.
 
 
 ```{r fulldoses-fig-avg-log, eval=TRUE, echo=FALSE}
@@ -224,7 +225,7 @@ Fig: Average, minimum and maximum whole-setup absorbed dose rates per setup.
 g+facet_grid(~front,labeller="label_both")+geom_errorbar(aes(ymin=min_mGyperh,ymax=max_mGyperh),size=1,alpha=0.5)+geom_point(aes(y=avg_mGyperh),size=3)+scale_y_log10()+xlab("setup id")+ylab("average whole-setup absorbed dose rate [mGy/h]")+theme_minimal()+theme(legend.position="none",axis.text.x=element_text(angle = 90))
 
 ```
-Fig: Average, minimum and maximum whole-setup absorbed dose rates per setup with a logarithmic y-axis.
+Fig: Average, minimum and maximum absorbed dose rates per setup with a logarithmic y-axis.
 
 ### Appendix (WIP): Raw dose rates and total doses per position and rotation
 
@@ -233,7 +234,7 @@ Each experimental unit had the following positions per rotation, were exposed at
 
 ```{r subsetdoses, eval=TRUE, echo=FALSE}
 
-kable(select(count(fullsetupmaster,id,type,rotation,position,wholesetupAbsorbedDoseRatemGyperh,wholesetupAbsorbedDoseGy),id,type,rotation,position,wholesetupAbsorbedDoseRatemGyperh,wholesetupAbsorbedDoseGy))
+kable(select(count(fullsetupmaster,id,type,rotation,position,absorbedDoseRatemGyperh,absorbedDoseGy),id,type,rotation,position,absorbedDoseRatemGyperh,absorbedDoseGy))
 
 ```
 
