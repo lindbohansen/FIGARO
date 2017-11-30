@@ -3,7 +3,7 @@ $ 2017 lindbohansen@gmail.com $
 # FIGARO
 A framework for exposure characterization and gamma dosimetry at the NMBU FIGARO irradiation facility.
 
---> (the source code for this project is currently undergoing extensive cleanup) <--
+### --> (the source code for this project is currently undergoing extensive cleanup) <--
 
 Access the framework at https://github.com/lindbohansen/FIGARO/
 
@@ -11,7 +11,21 @@ Look for upcoming user documentation and examples at https://github.com/lindboha
 
 Read about FIGARO under FIGARO/figaro-article --> currently unavailable as the article has been submitted for publication to the DoReMi special issue of the International Journal of Radiation Biology
 
-#### see bundle contents at the end of this file
+#### FIGARO full bundle contents
+
+figaro - source code and macros for the Geant4 app
+
+figaro-build - build target for the Geant4 app
+
+figaro-bash - folder for bash scripts to handle common user tasks
+
+figaro-results - folder for simulation result files
+
+figaro-analysis - folder for R analysis scripts
+
+figaro-doseplanning - folder for the dose planning app
+
+figaro-dosereport - folder for the dose recording and reporting app
 
 #### FIGARO has been developed under CentOS Linux 7 with the following non-exhaustive list of software
 
@@ -32,19 +46,3 @@ Rscript: R scripting front-end version 3.4.0 (2017-04-21)
 pandoc: pandoc 1.12.3.1
 
 latex: pdfTeX 3.1415926-2.5-1.40.14 (TeX Live 2013)
-
-#### FIGARO full bundle contents
-
-figaro - source code and macros for the Geant4 app
-
-figaro-build - build target for the Geant4 app
-
-figaro-bash - folder for bash scripts to handle common user tasks
-
-figaro-results - folder for simulation result files
-
-figaro-analysis - folder for R analysis scripts
-
-figaro-doseplanning - folder for the dose planning app
-
-figaro-dosereport - folder for the dose recording and reporting app
