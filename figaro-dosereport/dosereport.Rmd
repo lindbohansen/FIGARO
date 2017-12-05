@@ -15,9 +15,6 @@ params:
 library(knitr)
 library(tidyverse)
 library(forcats)
-library(stringr)
-library(limSolve)
-library(glmnet)
 ```
 
 ```{r run-this-file, eval=FALSE, include=FALSE}
@@ -169,7 +166,7 @@ kable(select(count(fullsetupmaster,rotation,rotationstart,rotationstop,rotationt
 
 ### Minimum, maximum and average absorbed dose rates and accumulated absorbed doses
 
-Setups received the following accumulated absorbed doses (accumulated_Gy), at the following average (avg_mGyperh), minimum (min_mGyperh) and maximum (max_mGyperh) absorbed dose rates.
+Setups received the following accumulated absorbed doses (accumulated_Gy), at the following average (avg_mGyperh), minimum (min_mGyperh) and maximum (max_mGyperh) absorbed dose rates. The relative standard uncertainty on the absorbed dose rates is estimated to 8%.
 
 ```{r fulldoses, eval=TRUE, echo=FALSE}
 
@@ -229,7 +226,7 @@ Fig: Average, minimum and maximum absorbed dose rates per setup with a logarithm
 
 ### Appendix (WIP): Raw dose rates and total doses per position and rotation
 
-Each experimental unit had the following positions per rotation, were exposed at each position to the following dose rates, and received for each rotation the following total doses (for dose rate quantities and units, see table below):
+Each experimental unit had the following positions per rotation, were exposed at each position to the following absorbed dose rates, and received for each rotation the following total absorbed doses (for dose rate quantities and units, see table below):
 
 
 ```{r subsetdoses, eval=TRUE, echo=FALSE}
