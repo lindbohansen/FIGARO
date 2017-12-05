@@ -3,9 +3,9 @@ $ 2017 lindbohansen@gmail.com $
 # FIGARO
 A framework for exposure characterization and gamma dosimetry at the NMBU FIGARO irradiation facility.
 
-### --> (the source code for this project is currently undergoing extensive cleanup) <--
-
 Access the framework at https://github.com/lindbohansen/FIGARO/
+
+View current issues and planned developments at https://github.com/lindbohansen/FIGARO/issues
 
 Look for upcoming user documentation and examples at https://github.com/lindbohansen/FIGARO/wiki
 
