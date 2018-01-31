@@ -1,7 +1,7 @@
 #!/bin/bash
 # $ 07/2017 lindbohansen@gmail.com $
 clear
-echo "The FIGARO minisource Perpetuator is starting up..."
+echo "The FIGARO Minisource Perpetuator is starting up..."
 read -e -p "Please enter the location of geant4.10.03.p01-install: " dirGeant4
 read -e -p "Please enter the location of FIGARO: " dirFIGARO
 libGeant4=${dirGeant4%/}/lib64/Geant4-10.3.1/
