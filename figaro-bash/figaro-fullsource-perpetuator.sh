@@ -1,7 +1,7 @@
 #!/bin/bash
 # $ 07/2017 lindbohansen@gmail.com $
 clear
-echo "The FIGARO Perpetuator is starting up..."
+echo "The FIGARO Fullsource Perpetuator is starting up..."
 read -e -p "Please enter the location of geant4.10.03.p01-install: " dirGeant4
 read -e -p "Please enter the location of FIGARO: " dirFIGARO
 libGeant4=${dirGeant4%/}/lib64/Geant4-10.3.1/
@@ -19,9 +19,9 @@ then
 	echo "Server Name - $(hostname)"
         echo "geant4.10.03.p01-install : $dirGeant4"
         echo "FIGARO: $dirFIGARO"
-	echo "------------------------------"
-	echo "  ~ The FIGARO Perpetuator ~"
-	echo "------------------------------"
+	echo "-----------------------------------------"
+	echo "  ~ The FIGARO Fullsource Perpetuator ~"
+	echo "-----------------------------------------"
 	echo "1. Build and make FIGARO"
         echo "2. Run FIGARO interactively"
 	echo "3. Run FIGARO via a macro"
