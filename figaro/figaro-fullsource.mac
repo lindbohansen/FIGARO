@@ -304,7 +304,7 @@
 /gps/pos/confine SteelSource
 ###
 # source 1.17 MeV
-/gps/source/add 0
+/gps/source/add 1e-12
 /gps/particle gamma
 /gps/pos/type Volume
 /gps/pos/shape Cylinder
@@ -317,7 +317,7 @@
 /gps/energy 1.17 MeV
 /gps/pos/confine SteelSource
 # source 1.33 MeV
-/gps/source/add 0
+/gps/source/add 1e-12
 /gps/particle gamma
 /gps/pos/type Volume
 /gps/pos/shape Cylinder
@@ -439,7 +439,7 @@
 /gps/pos/confine SteelSource
 ###
 # source 1.17 MeV
-/gps/source/add 0
+/gps/source/add 1e-12
 /gps/particle gamma
 /gps/pos/type Volume
 /gps/pos/shape Cylinder
@@ -452,7 +452,7 @@
 /gps/energy 1.17 MeV
 /gps/pos/confine SteelSource
 # source 1.33 MeV
-/gps/source/add 0
+/gps/source/add 1e-12
 /gps/particle gamma
 /gps/pos/type Volume
 /gps/pos/shape Cylinder
