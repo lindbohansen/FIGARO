@@ -10,8 +10,6 @@ echo "# $ 07/2017 lindbohansen@gmail.com $" >> $filename
 echo "###" >> $filename
 
 strengthsfile=../figaro/figaro-source-strengths.csv
-multiplier=100
-# multiplier can be removed ? or altered when figaro-source-strengths.csv has hollow cylinders
 
 OLDIFS=$IFS
 IFS=,
